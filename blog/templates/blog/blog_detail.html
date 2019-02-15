@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Detail</title>
-</head>
-<body>
- <div>
-        <a href="{% url 'home' %}">
-            <p>个人博客网站</p>
-        </a>
-    </div>
- <h3 align="center">{{ blog.title }}</h3>
+{% extends 'blog_base.html' %}
+{% block title %}
+    {{ blog.title }}
+{% endblock %}
+{% block content %}
+    <h3 align="center">{{ blog.title }}</h3>
     <p align="center">作者：{{ blog.author }}</p>
     <p align="center">发表日期：{{ blog.created_time|date:"Y-m-d H:n:s" }}</p>
     <p align="center">分类：
@@ -19,5 +12,6 @@
         </a>
     </p>
     <p align="center">{{ blog.content }}</p>
-</body>
-</html>
+{% endblock %}
+
+
