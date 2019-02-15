@@ -1,9 +1,5 @@
-from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, render_to_response, get_object_or_404
 from rest_framework import viewsets
-from rest_framework.decorators import api_view
-from rest_framework.parsers import JSONParser
-
 from .models import Blog, BlogType
 from .serializers import BlogSerializers, BlogTypeSerializers
 
