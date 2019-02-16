@@ -15,6 +15,22 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">{% block blog_list_title %}博客列表（一共有{{ page_of_blogs.paginator.count }}篇博客）{% endblock %}</div>
                     <div class="panel-body">
+                        {% for blog in blogs %}
+                            <div class="blog">
+                                <h3><a href="{% url 'blog_detail' blog.pk %}">{{ blog.title }}</a></h3>
+                                <p class="blog-info">
+                                    <span class="glyphicon glyphicon-tag"></span> <a href="{% url 'blogs_with_type' blog.blog_type.pk %}">{{ blog.blog_type }}</a>&nbsp;&nbsp;
+                                    <span class="glyphicon glyphicon-time"></span> {{ blog.created_time|date:"Y-m-d" }}&nbsp;&nbsp;
+                                    阅读({{ blog.readed_num }})
+                                </p>
+                                <p>{{ blog.content|striptags|truncatechars:120 }}</p>
+                            </div>
+                        {% empty %}
+                            <div class="blog">
+                                <h3>暂无博客，敬请期待</h3>
+                            </div>
+                        {% endfor %}
+
                         {% for blog in page_of_blogs.object_list %}
                             <div class="blog">
                                 <h3><a href="{% url 'blog_detail' blog.pk %}">{{ blog.title }}</a></h3>
