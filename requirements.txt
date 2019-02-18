@@ -2,3 +2,4 @@ djangorestframework
 Django==2.1.4
 pytz==2017.3
 ​mysqlclient
+django-ckeditor
