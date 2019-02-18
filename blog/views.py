@@ -3,7 +3,8 @@ from rest_framework import viewsets
 from .models import Blog, BlogType
 from .serializers import BlogSerializers, BlogTypeSerializers
 from django.core.paginator import Paginator
-
+from django.contrib.contenttypes.models import ContentType
+from comment.models import Comment
 
 # 提供API
 # Create your views here.
@@ -43,11 +44,14 @@ def blog_list(request):
 
 def blog_detail(request, blog_pk):
     blog = get_object_or_404(Blog, pk=blog_pk)
+    blog_content_type=ContentType.objects.get_for_model(blog)
+    comments=Comment.objects.filter(content_type=blog_content_type,object_id=blog_pk)
+
     if not request.COOKIES.get('blog_%s_readed' % blog_pk):
         blog.readed_num += 1
         blog.save()
-    context = {'blog': blog}
-    response = render_to_response('blog/blog_detail.html', context)  # 响应
+    context = {'blog': blog, 'comments': comments}
+    response = render(request,'blog/blog_detail.html', context)  # 响应
     response.set_cookie('blog_%s_readed' % blog_pk, "true", max_age=60)  # 第三个参数是时间 60s有效
     return response
 
