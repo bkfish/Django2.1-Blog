@@ -2,6 +2,6 @@
 {% block title %}{{ blog_type.type_name }}{% endblock %}
 
 {% block blog_list_title %}
-    分类：{{ blog_type.type_name }}（一共有{{ blogs|length }}篇博客）
+    分类：{{ blog_type.type_name }}
     <a href="{% url 'blog_list' %}">查看全部博客</a>
 {% endblock %}
