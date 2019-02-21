@@ -3,7 +3,9 @@ from django.core.paginator import Paginator
 from django.conf import settings
 from django.db.models import Count
 from django.contrib.contenttypes.models import ContentType
+from rest_framework import viewsets
 
+from blog.serializers import BlogSerializers
 from .models import Blog, BlogType
 from read_statistics.utils import read_statistics_once_read
 
@@ -72,3 +74,10 @@ def blog_detail(request, blog_pk):
     response = render(request, 'blog/blog_detail.html', context) # 响应
     response.set_cookie(read_cookie_key, 'true') # 阅读cookie标记
     return response
+
+
+class BlogViewSet(viewsets.ModelViewSet):
+    # 指定结果集并设置排序
+    queryset = Blog.objects.all().order_by('-pk')
+    # 指定序列化的类
+    serializer_class = BlogSerializers

@@ -2,6 +2,10 @@ from django.shortcuts import render
 from django.contrib.contenttypes.models import ContentType
 from django.http import JsonResponse
 from django.db.models import ObjectDoesNotExist
+from rest_framework import viewsets
+
+from blog.models import Blog
+from blog.serializers import BlogSerializers
 from .models import LikeCount, LikeRecord
 
 
@@ -12,11 +16,13 @@ def ErrorResponse(code, message):
     data['message'] = message
     return JsonResponse(data)
 
+
 def SuccessResponse(liked_num):
     data = {}
     data['status'] = 'SUCCESS'
     data['liked_num'] = liked_num
     return JsonResponse(data)
+
 
 def like_change(request):
     # 获取数据
@@ -37,7 +43,8 @@ def like_change(request):
     # 处理数据
     if request.GET.get('is_like') == 'true':
         # 要点赞
-        like_record, created = LikeRecord.objects.get_or_create(content_type=content_type, object_id=object_id, user=user)
+        like_record, created = LikeRecord.objects.get_or_create(content_type=content_type, object_id=object_id,
+                                                                user=user)
         if created:
             # 未点赞过，进行点赞
             like_count, created = LikeCount.objects.get_or_create(content_type=content_type, object_id=object_id)
@@ -64,3 +71,5 @@ def like_change(request):
         else:
             # 没有点赞过，不能取消
             return ErrorResponse(403, 'you were not liked')
+
+

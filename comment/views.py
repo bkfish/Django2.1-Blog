@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse
 from django.http import JsonResponse
+from rest_framework import viewsets
+
+from blog.models import Blog
 from .models import Comment
 from .forms import CommentForm
 
@@ -42,3 +45,5 @@ def update_comment(request):
         data['status'] = 'ERROR'
         data['message'] = list(comment_form.errors.values())[0][0]
     return JsonResponse(data)
+
+
