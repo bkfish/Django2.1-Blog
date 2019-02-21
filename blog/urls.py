@@ -6,7 +6,7 @@ from blog import views
 route = routers.DefaultRouter()
 
 # 注册新的路由地址
-route.register(r'student', views.BlogViewSet)
+route.register(r'blog', views.BlogViewSet)
 # start with blog
 urlpatterns = [
     # http://localhost:8000/blog/
